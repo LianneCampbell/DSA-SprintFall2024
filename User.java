@@ -23,8 +23,15 @@ public class User {
         taskList.markTaskCompleted(description);
     }
 
+    public void deleteTask(String description) {
+        taskList.deleteTask(description);
+    }
+
     public void printTasks() {
+        System.out.println("\n==================== To-Do List ====================");
+        System.out.println("");
         System.out.println(name + "'s To-Do List (sorted by priority):");
+        System.out.println("");
         taskList.printTasksByPriority();
     }
 }

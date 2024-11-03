@@ -1,0 +1,9 @@
+lianne
+do dishes,false,2
+END
+Bob
+Build Desk,false,3
+Build Chair,false,2
+Build Computer,false,1
+Build Shelf,false,3
+END
