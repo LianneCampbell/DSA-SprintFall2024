@@ -45,7 +45,8 @@ public class TaskList {
             }
             current = current.next;
         }
-        System.out.println("Task not found.");
+        System.out.println("\n----------------------------------------------------");
+        System.out.println("\nTask not found.");
     }
 
     public void printTasksByPriority() {
@@ -70,6 +71,38 @@ public class TaskList {
             writer.write(current.task.getDescription() + "," + current.task.isCompleted() + ","
                     + current.task.getPriority() + "\n");
             current = current.next;
+        }
+    }
+
+    public void deleteTask(String description) {
+        if (head == null) {
+            System.out.println("\n----------------------------------------------------");
+            System.out.println("\nTask list is empty.");
+            return;
+        }
+
+        if (head.task.getDescription().equals(description)) {
+            head = head.next; // Delete the head node
+            System.out.println("\n----------------------------------------------------");
+            System.out.println("\nTask deleted.");
+            return;
+        }
+
+        Node current = head;
+        Node previous = null;
+
+        while (current != null && !current.task.getDescription().equals(description)) {
+            previous = current;
+            current = current.next;
+        }
+
+        if (current == null) {
+            System.out.println("\n----------------------------------------------------");
+            System.out.println("\nTask not found.");
+        } else {
+            previous.next = current.next; // Remove the node
+            System.out.println("\n----------------------------------------------------");
+            System.out.println("\nTask deleted.");
         }
     }
 }

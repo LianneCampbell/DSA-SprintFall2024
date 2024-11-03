@@ -11,7 +11,18 @@ public class Main {
         Scanner scanner = new Scanner(System.in);
         int choice;
         do {
-            System.out.println("1. Add User\n2. Add Task\n3. Mark Task as Completed\n4. View Tasks\n5. Exit");
+            System.out.println("\n================ To-Do List Manager ================");
+            System.out.println("\n1. Add User");
+            System.out.println("2. Add Task");
+            System.out.println("3. Mark Task as Completed");
+            System.out.println("4. Delete Task");
+            System.out.println("5. View Tasks");
+            System.out.println("6. Exit and Save");
+            System.out.println("\n====================================================");
+
+            // Adding this line to prompt the user for input
+            System.out.print("\nPlease choose your option: ");
+
             choice = scanner.nextInt();
             scanner.nextLine(); // Consume newline
 
@@ -25,60 +36,74 @@ public class Main {
                 case 3:
                     markTaskCompleted(scanner);
                     break;
-                case 4:
-                    viewTasks(scanner);
+                case 4: // New case to delete a task
+                    deleteTask(scanner);
                     break;
                 case 5:
+                    viewTasks(scanner);
+                    break;
+                case 6:
+                    System.out.println("\n=================== Save and Exit ==================");
                     saveToFile();
                     System.out.println("Exiting...");
                     break;
                 default:
-                    System.out.println("Invalid option.");
+                    System.out.println("\n----------------------------------------------------");
+                    System.out.println("\nInvalid option. Please try again.");
             }
-        } while (choice != 5);
+
+        } while (choice != 6);
         scanner.close();
     }
 
     private static void addUser(Scanner scanner) {
-        System.out.print("Enter user name: ");
+        System.out.println("\n===================== Add User ====================");
+        System.out.print("\nEnter user name: ");
         String name = scanner.nextLine();
 
         // Check for duplicate user
         for (User user : users) {
             if (user.getName().equals(name)) {
-                System.out.println("User already exists.");
+                System.out.println("\n----------------------------------------------------");
+                System.out.println("\nUser already exists.");
                 return;
             }
         }
 
         users.add(new User(name));
-        System.out.println("User added.");
+        System.out.println("\n----------------------------------------------------");
+        System.out.println("\nUser added.");
     }
 
     private static void addTask(Scanner scanner) {
         User user = selectUser(scanner);
         if (user != null) {
-            System.out.print("Enter task description: ");
+            System.out.println("\n===================== Add Task ====================");
+            System.out.print("\nEnter task description: ");
             String description = scanner.nextLine();
 
-            System.out.print("Enter task priority (1: High, 2: Medium, 3: Low): ");
+            System.out.println("\n----------------------------------------------------");
+            System.out.print("\nEnter task priority (1: High, 2: Medium, 3: Low): ");
             int priority = scanner.nextInt();
             scanner.nextLine(); // Consume newline
 
             if (priority < 1 || priority > 3) {
-                System.out.println("Invalid priority. Please enter 1, 2, or 3.");
+                System.out.println("\n----------------------------------------------------");
+                System.out.println("\nInvalid priority. Please enter 1, 2, or 3.");
                 return;
             }
 
             user.addTask(description, priority);
-            System.out.println("Task added.");
+            System.out.println("\n----------------------------------------------------");
+            System.out.println("\nTask added.");
         }
     }
 
     private static void markTaskCompleted(Scanner scanner) {
         User user = selectUser(scanner);
         if (user != null) {
-            System.out.print("Enter task description to mark as completed: ");
+            System.out.println("\n=================== Complete Task ==================");
+            System.out.print("\nEnter task description to mark as completed: ");
             String description = scanner.nextLine();
             if (description.isEmpty()) {
                 System.out.println("Task description cannot be empty.");
@@ -86,6 +111,21 @@ public class Main {
             }
 
             user.markTaskCompleted(description);
+        }
+    }
+
+    private static void deleteTask(Scanner scanner) { // Method to delete a task
+        User user = selectUser(scanner);
+        if (user != null) {
+            System.out.println("\n====================== Delete ======================");
+            System.out.print("\nEnter task description to delete: ");
+            String description = scanner.nextLine();
+            if (description.isEmpty()) {
+                System.out.println("Task description cannot be empty.");
+                return;
+            }
+
+            user.deleteTask(description);
         }
     }
 
@@ -97,14 +137,16 @@ public class Main {
     }
 
     private static User selectUser(Scanner scanner) {
-        System.out.print("Enter user name: ");
+        System.out.println("\n====================== Sign In =====================");
+        System.out.print("\nEnter user name: ");
         String name = scanner.nextLine();
         for (User user : users) {
             if (user.getName().equals(name)) {
                 return user;
             }
         }
-        System.out.println("User not found.");
+        System.out.println("\n----------------------------------------------------");
+        System.out.println("\nUser not found.");
         return null;
     }
 
@@ -115,9 +157,9 @@ public class Main {
                 user.getTaskList().writeTasks(writer);
                 writer.write("END\n"); // Mark end of user's tasks
             }
-            System.out.println("Data saved successfully.");
+            System.out.println("\nData saved successfully.");
         } catch (IOException e) {
-            System.out.println("An error occurred while saving data.");
+            System.out.println("\nAn error occurred while saving data.");
         }
     }
 
@@ -144,9 +186,9 @@ public class Main {
                     }
                 }
             }
-            System.out.println("Data loaded successfully.");
+            System.out.println("\nData loaded successfully.");
         } catch (IOException e) {
-            System.out.println("No previous data found or an error occurred while loading data.");
+            System.out.println("\nNo previous data found or an error occurred while loading data.");
         }
     }
 }
